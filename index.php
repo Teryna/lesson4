@@ -1,9 +1,33 @@
 <?php
 error_reporting(E_ALL);
-$json = file_get_contents("http://api.openweathermap.org/data/2.5/weather?id=454310&units=metric&lang=ru&APPID=b3989de3991a32e3272231146a1f1178");
+
+$link = 'http://api.openweathermap.org/data/2.5/weather';
+$apiid = 'b3989de3991a32e3272231146a1f1178';
+$city_id = '454310';
+$units = 'metric';
+$lang = 'ru';
+$api = "$link?id=$city_id&units=$units&lang=$lang&appid=$apiid";
+
+$json = file_get_contents($api); 
+if ($json === false) {
+    exit('Не удалось получить данные'); 
+}
+
 $data = json_decode($json, true);
-//var_dump ($data);
-$today = date("d M Y H:i");
+if ($data === null) {
+    exit('Ошибка декодирования json');
+}
+
+function checkData($data) { 
+    if (empty($data)) { 
+        return 'не удалось получить данные'; 
+    }
+
+return $data;
+    
+}
+
+$today = date('d M Y H:i');
 
 $month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
@@ -11,18 +35,18 @@ $month_ru = ['Января', 'Февраля', 'Марта', 'Апреля', 'М
 
 $today = str_replace($month, $month_ru, $today);
 
-$icon = "http://openweathermap.org/img/w/" . $data["weather"][0]["icon"] . ".png";
+$icon = 'http://openweathermap.org/img/w/' . $data['weather'][0]['icon'] . '.png';
 
-$weather = ($data["weather"][0]["description"] !== 0) ? 
-         "Погодные условия - " . $data["weather"][0]["description"] : "без осадков";
+$weather = ($data['weather'][0]['description'] !== 0) ? 
+         'Погодные условия - ' . $data['weather'][0]['description'] : 'без осадков';
 
 $clouds = ($data['clouds']['all'] !== 0) ? 
-        "облачность - " . $data['clouds']['all']. " %" : "безоблачно";
+        'облачность - ' . $data['clouds']['all']. " %" : 'безоблачно';
 
 $data_sunrise = $data['sys']['sunrise'];
-$sunrise = date("H:i", $data_sunrise);
+$sunrise = date('H:i', $data_sunrise);
 $data_sunset = $data['sys']['sunset'];
-$sunset = date("H:i", $data_sunset);
+$sunset = date('H:i', $data_sunset);
 
 $temper = $data['main']['temp'];
 $temperatura = number_format($temper, 1, '.', '');
@@ -33,10 +57,10 @@ $humidity = $data['main']['humidity'];
 
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang='ru'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Стандартные функции</title>
         <style>
             body {
