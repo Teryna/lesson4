@@ -37,10 +37,10 @@ $today = str_replace($month, $month_ru, $today);
 
 $icon = 'http://openweathermap.org/img/w/' . $data['weather'][0]['icon'] . '.png';
 
-$weather = checkData($data['weather'][0]['description'] !== 0)? 
+$weather = ($data['weather'][0]['description'] !== 0) ? 
          'Погодные условия - ' . checkData($data['weather'][0]['description']) : 'без осадков';
 
-$clouds = checkData($data['clouds']['all'] !== 0) ? 
+$clouds = ($data['clouds']['all'] !== 0) ? 
         'облачность - ' . checkData($data['clouds']['all']) . " %" : 'безоблачно';
 
 $data_sunrise = checkData($data['sys']['sunrise']);
