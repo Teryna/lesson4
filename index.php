@@ -37,23 +37,23 @@ $today = str_replace($month, $month_ru, $today);
 
 $icon = 'http://openweathermap.org/img/w/' . $data['weather'][0]['icon'] . '.png';
 
-$weather = ($data['weather'][0]['description'] !== 0) ? 
-         'Погодные условия - ' . $data['weather'][0]['description'] : 'без осадков';
+$weather = checkData($data['weather'][0]['description'] !== 0)? 
+         'Погодные условия - ' . checkData($data['weather'][0]['description']) : 'без осадков';
 
-$clouds = ($data['clouds']['all'] !== 0) ? 
-        'облачность - ' . $data['clouds']['all']. " %" : 'безоблачно';
+$clouds = checkData($data['clouds']['all'] !== 0) ? 
+        'облачность - ' . checkData($data['clouds']['all']) . " %" : 'безоблачно';
 
-$data_sunrise = $data['sys']['sunrise'];
+$data_sunrise = checkData($data['sys']['sunrise']);
 $sunrise = date('H:i', $data_sunrise);
-$data_sunset = $data['sys']['sunset'];
+$data_sunset = checkData($data['sys']['sunset']);
 $sunset = date('H:i', $data_sunset);
 
-$temper = $data['main']['temp'];
+$temper = checkData($data['main']['temp']);
 $temperatura = number_format($temper, 1, '.', '');
-$pressure = $data['main']['pressure'];
-$wind_speed = $data['wind']['speed'];
-$wind_deg = $data['wind']['deg'];
-$humidity = $data['main']['humidity'];
+$pressure = checkData($data['main']['pressure']);
+$wind_speed = checkData($data['wind']['speed']);
+$wind_deg = checkData($data['wind']['deg']);
+$humidity = checkData($data['main']['humidity']);
 
 ?>
 <!DOCTYPE html>
